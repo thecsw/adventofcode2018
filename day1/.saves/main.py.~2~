@@ -1,0 +1,12 @@
+freqs = []
+with open("input.txt", "r") as r:
+    freqs = [x.replace('\n', '') for x inr.readlines()]
+
+sum = 0
+for freq in freqs:
+    if freq[0] == '+':
+        sum = sum + int(freq[1])
+    else:
+        sum = sum - int(freq[1])
+
+print(sum)

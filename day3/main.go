@@ -45,23 +45,47 @@ func max_dimensions(xs []elf_case) (width int, height int) {
 	return
 }
 
-func find_case(board [][]int, cases []elf_case) int {
-	case_number := -1
-	for _, v := range cases {
-		case_number = v.number
-		hits := 0
-		for i:= v.left; i < v.left + v.width; i++ {
-			for j:= v.top; j < v.top + v.height; j++ {
-				if board[i][j] != 1 {
-					hits++
-				}
+func the_only_patch(board [][]int, cnum elf_case) bool {	
+	for i:= cnum.left; i < cnum.left + cnum.width; i++ {
+		for j:= cnum.top; j < cnum.top + cnum.height; j++ {
+			if board[i][j] != 1 {
+				return false
 			}
 		}
-		if hits == 0 {
-			return case_number
+	}
+	return true
+}
+
+func part2(board [][]int, cases []elf_case) int {
+	for _, v := range cases {
+		if the_only_patch(board, v) {
+			return v.number
 		}
 	}
 	return -1
+}
+
+func fill_board(board [][]int, arr []elf_case) [][]int {
+	for _, v := range arr {
+		for i:= v.left; i < v.left + v.width; i++ {
+			for j:= v.top; j < v.top + v.height; j++ {
+				board[i][j]++
+			}
+		} 
+	}
+	return board
+}
+
+func part1(board [][]int) int {
+	answer := 0
+	for _, column := range board {
+		for _, rownum := range column {
+			if rownum > 1 {
+				answer++
+			}
+		}
+	}
+	return answer
 }
 
 func main() {
@@ -74,34 +98,12 @@ func main() {
 	}
 
 	y, x := max_dimensions(arr)
-
 	board := make([][]int, y)
 	for i, _ := range board {
 		board[i] = make([]int, x)
 	}
-
-	for _, v := range arr {
-		for i:= v.left; i < v.left + v.width; i++ {
-			for j:= v.top; j < v.top + v.height; j++ {
-				switch board[i][j] {
-				case 0:
-					board[i][j] = 1
-				case 1:
-					board[i][j] = 2
-				}
-			}
-		} 
-	}
-
-	answer := 0
-	for _, column := range board {
-		for _, rownum := range column {
-			if rownum == 2 {
-				answer++
-			}
-		}
-	}
-
-	fmt.Println("Part one:", answer)
-	fmt.Println("Part two:", find_case(board, arr))
+	board = fill_board(board, arr)
+	
+	fmt.Println("Part one:", part1(board))
+	fmt.Println("Part two:", part2(board, arr))
 }

@@ -1,19 +1,19 @@
 package main
 
 import (
-	"os"
 	"fmt"
 	"io/ioutil"
-	"strings"
+	"os"
 	"regexp"
 	"strconv"
+	"strings"
 )
 
 type elf_case struct {
 	number int
-	left int
-	top int
-	width int
+	left   int
+	top    int
+	width  int
 	height int
 }
 
@@ -25,9 +25,9 @@ func get_object(s string) (obj elf_case) {
 	temp4, _ := strconv.Atoi(r.FindStringSubmatch(s)[4])
 	temp5, _ := strconv.Atoi(r.FindStringSubmatch(s)[5])
 	obj = elf_case{number: temp1,
-		left: temp2,
-		top: temp3,
-		width: temp4,
+		left:   temp2,
+		top:    temp3,
+		width:  temp4,
 		height: temp5,
 	}
 	return
@@ -35,19 +35,19 @@ func get_object(s string) (obj elf_case) {
 
 func max_dimensions(xs []elf_case) (width int, height int) {
 	for _, v := range xs {
-		if v.left + v.width > width {
+		if v.left+v.width > width {
 			width = v.left + v.width
 		}
-		if v.top + v.height > height {
+		if v.top+v.height > height {
 			height = v.top + v.height
 		}
 	}
 	return
 }
 
-func the_only_patch(board [][]int, cnum elf_case) bool {	
-	for i:= cnum.left; i < cnum.left + cnum.width; i++ {
-		for j:= cnum.top; j < cnum.top + cnum.height; j++ {
+func the_only_patch(board [][]int, cnum elf_case) bool {
+	for i := cnum.left; i < cnum.left+cnum.width; i++ {
+		for j := cnum.top; j < cnum.top+cnum.height; j++ {
 			if board[i][j] != 1 {
 				return false
 			}
@@ -67,11 +67,11 @@ func part2(board [][]int, cases []elf_case) int {
 
 func fill_board(board [][]int, arr []elf_case) [][]int {
 	for _, v := range arr {
-		for i:= v.left; i < v.left + v.width; i++ {
-			for j:= v.top; j < v.top + v.height; j++ {
+		for i := v.left; i < v.left+v.width; i++ {
+			for j := v.top; j < v.top+v.height; j++ {
 				board[i][j]++
 			}
-		} 
+		}
 	}
 	return board
 }
@@ -103,7 +103,7 @@ func main() {
 		board[i] = make([]int, x)
 	}
 	board = fill_board(board, arr)
-	
+
 	fmt.Println("Part one:", part1(board))
 	fmt.Println("Part two:", part2(board, arr))
 }

@@ -1,14 +1,15 @@
 package main
 
-import ("fmt"
+import (
+	"fmt"
 	"io/ioutil"
 	"os"
 	"strings"
 )
 
-func convert_to_string(xs []uint8, end *int) (string) {
+func convert_to_string(xs []uint8, end *int) string {
 	start := *end
-	for i:= start; xs[i] != 10; i++ {
+	for i := start; xs[i] != 10; i++ {
 		(*end)++
 	}
 	return string(xs[start:*end])
@@ -25,7 +26,7 @@ func make_string(xs []uint8) []string {
 }
 
 func find_two_three(s string) (two int, three int) {
-	for i:=97; i < 123; i++ {
+	for i := 97; i < 123; i++ {
 		count := strings.Count(s, string(i))
 		if count == 2 {
 			two = 1
@@ -71,12 +72,12 @@ func prototype_box(a string, b string) (bool, string) {
 
 func part2(target []string) string {
 	for i, v := range target {
- 		for j:=i; j < len(target); j++ {
+		for j := i; j < len(target); j++ {
 			found, answer := prototype_box(v, target[j])
 			if found {
 				return answer
 			}
- 		}
+		}
 	}
 	return ""
 }

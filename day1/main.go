@@ -1,6 +1,7 @@
 package main
 
-import ("fmt"
+import (
+	"fmt"
 	"io/ioutil"
 	"os"
 	"strconv"
@@ -27,12 +28,12 @@ func find(xs []int, target int) bool {
 func calc_freqs(xs []uint8, sums *[]int, start int) (sum int, found bool) {
 	sum = start
 	for i, v := range xs {
-		mul := 1;
-		if v == 45  || v == 43 {
+		mul := 1
+		if v == 45 || v == 43 {
 			if v == 45 {
 				mul *= -1
 			}
-			result := mul * convert_number(xs, i + 1)
+			result := mul * convert_number(xs, i+1)
 			sum += result
 			if found = find(*sums, sum); found {
 				return sum, found
@@ -52,9 +53,9 @@ func main() {
 	sums := make([]int, 0, 100)
 	target := 0
 	found := false
-	for ; !found; {
+	for !found {
 		target, found = calc_freqs(dat, &sums, target)
 	}
-	
+
 	fmt.Println(target)
 }

@@ -2,11 +2,11 @@ package main
 
 import (
 	"fmt"
-	"os"
 	"io/ioutil"
-	"strings"
+	"os"
 	"regexp"
 	"strconv"
+	"strings"
 )
 
 func atoi(s string) (answer int) {
